@@ -1,4 +1,5 @@
 ﻿using VehicleDataAPI.Clients;
+using VehicleDataAPI.Services;
 
 namespace VehicleDataAPI
 {
@@ -12,6 +13,7 @@ namespace VehicleDataAPI
             builder.Services.AddControllers();
 
             builder.Services.AddHttpClient<IVehicleApiClient, VehicleApiClient>();
+            builder.Services.AddScoped<IVehicleService, VehicleService>();
 
             // Add Swagger/OpenAPI services
             builder.Services.AddEndpointsApiExplorer(); 

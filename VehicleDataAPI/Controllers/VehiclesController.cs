@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VehicleDataAPI.Clients;
 using VehicleDataAPI.Models.ResponseDtos;
+using VehicleDataAPI.Services;
 
 namespace VehicleDataAPI.Controllers
 {
@@ -8,17 +9,17 @@ namespace VehicleDataAPI.Controllers
     [Route("api/[controller]")]
     public class VehiclesController : ControllerBase
     {
-        private readonly IVehicleApiClient _vehicleClient;
+        private readonly IVehicleService _vehicleService;
 
-        public VehiclesController(IVehicleApiClient vehicleClient)
+        public VehiclesController(IVehicleService vehicleService)
         {
-            _vehicleClient = vehicleClient;
+            _vehicleService = vehicleService;
         }
 
         [HttpGet("makes")]
         public async Task<IActionResult> GetMakes([FromQuery] int page = 1, [FromQuery] int pageSize = 100)
         {
-            var allMakes = await _vehicleClient.GetMakes(); 
+            var allMakes = await _vehicleService.GetMakesAsync(); 
 
             var paged = allMakes.Makes
                 .Skip((page - 1) * pageSize)
