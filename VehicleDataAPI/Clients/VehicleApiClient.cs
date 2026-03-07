@@ -51,9 +51,42 @@ namespace VehicleDataAPI.Clients
 
         }
 
-        public Task<List<ModelDto>> GetModelsForMake(int makeId, int yearId)
+        public async Task<ModelResponseDto> GetModelsForMake(int makeId, int yearId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var responseString = await _httpClient.GetStringAsync(
+                    $"https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeIdYear/makeId/{makeId}/modelyear/{yearId}?format=json");
+
+                var doc = JsonDocument.Parse(responseString);
+                var root = doc.RootElement;
+
+                var modelList = root.GetProperty("Results")
+                    .EnumerateArray()
+                    .Select(r => new ModelDto
+                    {
+                        Make_ID = r.GetProperty("Make_ID").GetInt32(),
+                        Make_Name = r.GetProperty("Make_Name").GetString(),
+                        Model_ID = r.GetProperty("Model_ID").GetInt32(),
+                        Model_Name = r.GetProperty("Model_Name").GetString()
+                    })
+                    .ToList();
+
+                return new ModelResponseDto
+                {
+                    Count = root.GetProperty("Count").GetInt32(),
+                    Message = root.GetProperty("Message").GetString(),
+                    Models = modelList
+                };
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new InvalidOperationException("Error calling external vehicle API", ex);
+            }
+            catch (JsonException ex)
+            {
+                throw new InvalidOperationException("Invalid JSON response from external API");
+            }
         }
 
         public async Task<VehicleTypeResponseDto> GetVehicleTypes(int makeId)

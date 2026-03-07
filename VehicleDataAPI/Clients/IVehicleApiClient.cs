@@ -9,7 +9,7 @@ namespace VehicleDataAPI.Clients
 
         Task<VehicleTypeResponseDto> GetVehicleTypes(int makeId);
 
-        Task<List<ModelDto>> GetModelsForMake(int makeId, int yearId);
+        Task<ModelResponseDto> GetModelsForMake(int makeId, int yearId);
 
     }
 }

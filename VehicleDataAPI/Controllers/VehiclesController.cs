@@ -33,6 +33,14 @@ namespace VehicleDataAPI.Controllers
             var result = await _vehicleService.GetVehicleTypesAsync(makeId, page, pageSize);
             return Ok(result);
         }
+        [HttpGet("ModelForMake")]
+        [ProducesResponseType(typeof(ModelResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetModelForMake([FromQuery] int makeId, [FromQuery] int modelYear, [FromQuery] int page = 1, [FromQuery] int pageSize = 100)
+        {
+            var result = await _vehicleService.GetModelForResponseAsync(makeId, modelYear, page, pageSize);
+            return Ok(result);
+        }
     }
 
 }

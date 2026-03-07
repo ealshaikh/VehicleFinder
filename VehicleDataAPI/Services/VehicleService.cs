@@ -57,5 +57,26 @@ namespace VehicleDataAPI.Services
                 throw new InvalidOperationException("Error calling external vehicle API", ex);
             }
         }
+        public async Task<ModelResponseDto> GetModelForResponseAsync(int makeId, int modelYear, int page, int pageSize)
+        {
+            try
+            {
+                var allModels = await _vehicleApiClient.GetModelsForMake(makeId, modelYear);
+                var paged = allModels.Models
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+                return new ModelResponseDto
+                {
+                    Count = allModels.Count,
+                    Message = allModels.Message,
+                    Models = paged
+                };
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new InvalidOperationException("Error calling external vehicle API", ex);
+            }
+        }
     }
 }

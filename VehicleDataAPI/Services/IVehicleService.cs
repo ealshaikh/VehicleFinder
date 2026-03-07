@@ -7,6 +7,7 @@ namespace VehicleDataAPI.Services
     {
         Task<MakesResponseDTO> GetMakesAsync(int page, int pageSize);
         Task<VehicleTypeResponseDto> GetVehicleTypesAsync(int makeId, int page, int pageSize);
+        Task<ModelResponseDto> GetModelForResponseAsync(int makeId, int modelYear, int page, int pageSize);
 
     }
 }
