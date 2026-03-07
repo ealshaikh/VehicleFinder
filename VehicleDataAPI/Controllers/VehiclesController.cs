@@ -17,22 +17,14 @@ namespace VehicleDataAPI.Controllers
         }
 
         [HttpGet("makes")]
+        [ProducesResponseType(typeof(MakesResponseDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetMakes([FromQuery] int page = 1, [FromQuery] int pageSize = 100)
         {
-            var allMakes = await _vehicleService.GetMakesAsync(); 
-
-            var paged = allMakes.Makes
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
-
-            return Ok(new MakesResponseDTO
-            {
-                Count = allMakes.Count,
-                Message = allMakes.Message,
-                Makes = paged
-            });
+            var result = await _vehicleService.GetMakesAsync(page, pageSize);
+            return Ok(result);
         }
+
 
     }
 }

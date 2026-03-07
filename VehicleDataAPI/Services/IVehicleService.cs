@@ -4,7 +4,7 @@ namespace VehicleDataAPI.Services
 {
     public interface IVehicleService
     {
-        Task<MakesResponseDTO> GetMakesAsync();
+        Task<MakesResponseDTO> GetMakesAsync(int page, int pageSize);
 
     }
 }

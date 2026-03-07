@@ -9,9 +9,28 @@ namespace VehicleDataAPI.Services
         {
             _vehicleApiClient = vehicleApiClient;
         }
-        public async Task<MakesResponseDTO> GetMakesAsync()
+        public async Task<MakesResponseDTO> GetMakesAsync(int page, int pageSize)
         {
-            return await _vehicleApiClient.GetMakes();
+            try
+            {
+                var allMakes = await _vehicleApiClient.GetMakes();
+
+                var paged = allMakes.Makes
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                return new MakesResponseDTO
+                {
+                    Count = allMakes.Count,
+                    Message = allMakes.Message,
+                    Makes = paged
+                };
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new InvalidOperationException("Error calling external vehicle API", ex);
+            }
         }
     }
 }

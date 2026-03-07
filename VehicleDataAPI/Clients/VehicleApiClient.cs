@@ -16,27 +16,39 @@ namespace VehicleDataAPI.Clients
 
         public async Task<MakesResponseDTO> GetMakes()
         {
-            var responseString = await _httpClient.GetStringAsync(
-                "https://vpic.nhtsa.dot.gov/api/vehicles/getallmakes?format=json");
-
-            using var doc = JsonDocument.Parse(responseString);
-            var root = doc.RootElement;
-
-            var makesList = root.GetProperty("Results")
-                .EnumerateArray()
-                .Select(r => new MakeDTO
-                {
-                    MakeId = r.GetProperty("Make_ID").GetInt32(),
-                    MakeName = r.GetProperty("Make_Name").GetString()
-                })
-                .ToList();
-
-            return new MakesResponseDTO
+            try
             {
-                Count = root.GetProperty("Count").GetInt32(),
-                Message = root.GetProperty("Message").GetString(),
-                Makes = makesList
-            };
+                var responseString = await _httpClient.GetStringAsync(
+                    "https://vpic.nhtsa.dot.gov/api/vehicles/getallmakes?format=json");
+
+                using var doc = JsonDocument.Parse(responseString);
+                var root = doc.RootElement;
+
+                var makesList = root.GetProperty("Results")
+                    .EnumerateArray()
+                    .Select(r => new MakeDTO
+                    {
+                        MakeId = r.GetProperty("Make_ID").GetInt32(),
+                        MakeName = r.GetProperty("Make_Name").GetString()
+                    })
+                    .ToList();
+
+                return new MakesResponseDTO
+                {
+                    Count = root.GetProperty("Count").GetInt32(),
+                    Message = root.GetProperty("Message").GetString(),
+                    Makes = makesList
+                };
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new InvalidOperationException("Error calling external vehicle API", ex);
+            }
+            catch (JsonException ex)
+            {
+                throw new InvalidOperationException("Invalid JSON response from external API");
+            }
+
         }
 
         public Task<List<ModelDto>> GetModelsForMake(int makeId, int yearId)
