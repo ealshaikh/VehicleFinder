@@ -1,5 +1,7 @@
-﻿using VehicleDataAPI.Models.ResponseDtos;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using VehicleDataAPI.Clients;
+using VehicleDataAPI.Models.Dtos;
+using VehicleDataAPI.Models.ResponseDtos;
 namespace VehicleDataAPI.Services
 {
     public class VehicleService: IVehicleService
@@ -25,6 +27,29 @@ namespace VehicleDataAPI.Services
                     Count = allMakes.Count,
                     Message = allMakes.Message,
                     Makes = paged
+                };
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new InvalidOperationException("Error calling external vehicle API", ex);
+            }
+        }
+        public async Task<VehicleTypeResponseDto> GetVehicleTypesAsync(int makeId, int page, int pageSize)
+        {
+            try
+            {
+                var allVehicle = await _vehicleApiClient.GetVehicleTypes(makeId);
+
+                var paged = allVehicle.VehicleTypes
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                return new VehicleTypeResponseDto
+                {
+                    Count = allVehicle.Count,
+                    Message = allVehicle.Message,
+                    VehicleTypes = paged
                 };
             }
             catch (HttpRequestException ex)

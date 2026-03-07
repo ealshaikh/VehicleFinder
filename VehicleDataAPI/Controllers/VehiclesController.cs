@@ -25,6 +25,14 @@ namespace VehicleDataAPI.Controllers
             return Ok(result);
         }
 
-
+        [HttpGet("types")]
+        [ProducesResponseType(typeof(VehicleTypeResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetVehicleTypes([FromQuery] int makeId, [FromQuery] int page = 1, [FromQuery] int pageSize = 100)
+        {
+            var result = await _vehicleService.GetVehicleTypesAsync(makeId, page, pageSize);
+            return Ok(result);
+        }
     }
+
 }
