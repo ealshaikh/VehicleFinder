@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Threading;
 using VehicleDataAPI.Models;
 using VehicleDataAPI.Models.Dtos;
 using VehicleDataAPI.Models.ResponseDtos;
@@ -8,18 +9,27 @@ namespace VehicleDataAPI.Clients
     public class VehicleApiClient : IVehicleApiClient
     {
         private readonly HttpClient _httpClient;
+        private readonly IConfiguration _configuration;
 
-        public VehicleApiClient(HttpClient httpClient)
+        private readonly string _getAllMakesUrl;
+        private readonly string _getVehicleTypesUrl;
+        private readonly string _getModelsUrl;
+        public VehicleApiClient(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
+            _configuration = configuration;
+
+            _getAllMakesUrl = _configuration["VehicleApiSettings:GetAllMakesUrl"];
+            _getVehicleTypesUrl = _configuration["VehicleApiSettings:GetVehicleTypesUrl"];
+            _getModelsUrl = _configuration["VehicleApiSettings:GetModelsUrl"];
         }
 
-        public async Task<MakesResponseDTO> GetMakes()
+        public async Task<MakesResponseDTO> GetMakes(CancellationToken cancellationToken)
         {
             try
             {
                 var responseString = await _httpClient.GetStringAsync(
-                    "https://vpic.nhtsa.dot.gov/api/vehicles/getallmakes?format=json");
+                    _getAllMakesUrl, cancellationToken);
 
                 using var doc = JsonDocument.Parse(responseString);
                 var root = doc.RootElement;
@@ -46,17 +56,17 @@ namespace VehicleDataAPI.Clients
             }
             catch (JsonException ex)
             {
-                throw new InvalidOperationException("Invalid JSON response from external API");
+                throw new InvalidOperationException("Invalid JSON response from external API", ex);
             }
 
         }
 
-        public async Task<ModelResponseDto> GetModelsForMake(int makeId, int yearId)
+        public async Task<ModelResponseDto> GetModelsForMake(int makeId, int yearId, CancellationToken cancellationToken)
         {
             try
             {
-                var responseString = await _httpClient.GetStringAsync(
-                    $"https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeIdYear/makeId/{makeId}/modelyear/{yearId}?format=json");
+                var url = string.Format(_getModelsUrl, makeId, yearId);
+                var responseString = await _httpClient.GetStringAsync(url, cancellationToken);
 
                 var doc = JsonDocument.Parse(responseString);
                 var root = doc.RootElement;
@@ -85,16 +95,16 @@ namespace VehicleDataAPI.Clients
             }
             catch (JsonException ex)
             {
-                throw new InvalidOperationException("Invalid JSON response from external API");
+                throw new InvalidOperationException("Invalid JSON response from external API",ex);
             }
         }
 
-        public async Task<VehicleTypeResponseDto> GetVehicleTypes(int makeId)
+        public async Task<VehicleTypeResponseDto> GetVehicleTypes(int makeId, CancellationToken cancellationToken)
         {
             try
             {
-                var responseString = await _httpClient.GetStringAsync(
-                    $"https://vpic.nhtsa.dot.gov/api/vehicles/GetVehicleTypesForMakeId/{makeId}?format=json");
+                var url = string.Format(_getVehicleTypesUrl, makeId);
+                var responseString = await _httpClient.GetStringAsync(url, cancellationToken);
 
                 using var doc = JsonDocument.Parse(responseString);
                 var root = doc.RootElement;
@@ -122,7 +132,7 @@ namespace VehicleDataAPI.Clients
             }
             catch (JsonException ex)
             {
-                throw new InvalidOperationException("Invalid JSON response from external API");
+                throw new InvalidOperationException("Invalid JSON response from external API",ex);
             }
 
         }

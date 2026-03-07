@@ -11,11 +11,11 @@ namespace VehicleDataAPI.Services
         {
             _vehicleApiClient = vehicleApiClient;
         }
-        public async Task<MakesResponseDTO> GetMakesAsync(int page, int pageSize)
+        public async Task<MakesResponseDTO> GetMakesAsync(int page, int pageSize, CancellationToken cancellationToken = default)
         {
             try
             {
-                var allMakes = await _vehicleApiClient.GetMakes();
+                var allMakes = await _vehicleApiClient.GetMakes(cancellationToken);
 
                 var paged = allMakes.Makes
                     .Skip((page - 1) * pageSize)
@@ -34,11 +34,11 @@ namespace VehicleDataAPI.Services
                 throw new InvalidOperationException("Error calling external vehicle API", ex);
             }
         }
-        public async Task<VehicleTypeResponseDto> GetVehicleTypesAsync(int makeId, int page, int pageSize)
+        public async Task<VehicleTypeResponseDto> GetVehicleTypesAsync(int makeId, int page, int pageSize, CancellationToken cancellationToken = default)
         {
             try
             {
-                var allVehicle = await _vehicleApiClient.GetVehicleTypes(makeId);
+                var allVehicle = await _vehicleApiClient.GetVehicleTypes(makeId, cancellationToken);
 
                 var paged = allVehicle.VehicleTypes
                     .Skip((page - 1) * pageSize)
@@ -57,15 +57,17 @@ namespace VehicleDataAPI.Services
                 throw new InvalidOperationException("Error calling external vehicle API", ex);
             }
         }
-        public async Task<ModelResponseDto> GetModelForResponseAsync(int makeId, int modelYear, int page, int pageSize)
+        public async Task<ModelResponseDto> GetModelsAsync(int makeId, int modelYear, int page, int pageSize, CancellationToken cancellationToken = default)
         {
             try
             {
-                var allModels = await _vehicleApiClient.GetModelsForMake(makeId, modelYear);
+                var allModels = await _vehicleApiClient.GetModelsForMake(makeId, modelYear, cancellationToken);
+
                 var paged = allModels.Models
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .ToList();
+
                 return new ModelResponseDto
                 {
                     Count = allModels.Count,

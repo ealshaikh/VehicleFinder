@@ -5,11 +5,11 @@ namespace VehicleDataAPI.Clients
 {
     public interface IVehicleApiClient
     {
-        Task<MakesResponseDTO> GetMakes();
+        Task<MakesResponseDTO> GetMakes(CancellationToken cancellationToken);
 
-        Task<VehicleTypeResponseDto> GetVehicleTypes(int makeId);
+        Task<VehicleTypeResponseDto> GetVehicleTypes(int makeId, CancellationToken cancellationToken);
 
-        Task<ModelResponseDto> GetModelsForMake(int makeId, int yearId);
+        Task<ModelResponseDto> GetModelsForMake(int makeId, int yearId, CancellationToken cancellationToken);
 
     }
 }
