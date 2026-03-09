@@ -17,7 +17,15 @@ namespace VehicleDataAPI
 
             // Add Swagger/OpenAPI services
             builder.Services.AddEndpointsApiExplorer(); 
-            builder.Services.AddSwaggerGen();          
+            builder.Services.AddSwaggerGen();
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngularDev",
+                    policy => policy.WithOrigins("http://localhost:4200")
+                                    .AllowAnyHeader()
+                                    .AllowAnyMethod());
+            });
 
             var app = builder.Build();
 
@@ -29,6 +37,8 @@ namespace VehicleDataAPI
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors("AllowAngularDev");
 
             app.UseAuthorization();
 
