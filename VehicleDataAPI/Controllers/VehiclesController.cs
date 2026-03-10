@@ -25,19 +25,23 @@ namespace VehicleDataAPI.Controllers
             return null;
         }
         #endregion
-        [HttpGet("makes")]
-        [ProducesResponseType(typeof(MakesResponseDTO), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetMakes([FromQuery] int page = 1, [FromQuery] int pageSize = 100, CancellationToken cancellationToken = default)
-        {
-            var validationResult = ValidatePagination(page, pageSize);
-            if (validationResult != null)
-                return validationResult;
+         [HttpGet("makes")]
+         [ProducesResponseType(typeof(MakesResponseDTO), StatusCodes.Status200OK)]
+         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+         public async Task<IActionResult> GetMakes(
+         [FromQuery] string? search = null,
+         [FromQuery] int page = 1,
+         [FromQuery] int pageSize = 100,
+         CancellationToken cancellationToken = default)
+         {
+               var validationResult = ValidatePagination(page, pageSize);
+               if (validationResult != null)
+                   return validationResult;
 
-            var result = await _vehicleService.GetMakesAsync(page, pageSize, cancellationToken);
-            return Ok(result);
-        }
+               var result = await _vehicleService.GetMakesAsync(search, page, pageSize, cancellationToken);
+               return Ok(result);
+          }
 
         [HttpGet("types")]
         [ProducesResponseType(typeof(VehicleTypeResponseDto), StatusCodes.Status200OK)]

@@ -11,28 +11,27 @@ namespace VehicleDataAPI.Services
         {
             _vehicleApiClient = vehicleApiClient;
         }
-        public async Task<MakesResponseDTO> GetMakesAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+        public async Task<MakesResponseDTO> GetMakesAsync(string? search, int page, int pageSize, CancellationToken cancellationToken = default)
         {
-            try
-            {
-                var allMakes = await _vehicleApiClient.GetMakes(cancellationToken);
+            var allMakes = await _vehicleApiClient.GetMakes(cancellationToken);
 
-                var paged = allMakes.Makes
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize)
+            var filtered = string.IsNullOrEmpty(search)
+                ? allMakes.Makes
+                : allMakes.Makes
+                    .Where(m => m.MakeName.Contains(search, StringComparison.OrdinalIgnoreCase))
                     .ToList();
 
-                return new MakesResponseDTO
-                {
-                    Count = allMakes.Count,
-                    Message = allMakes.Message,
-                    Makes = paged
-                };
-            }
-            catch (HttpRequestException ex)
+            var paged = filtered
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            return new MakesResponseDTO
             {
-                throw new InvalidOperationException("Error calling external vehicle API", ex);
-            }
+                Count = filtered.Count,
+                Message = allMakes.Message,
+                Makes = paged
+            };
         }
         public async Task<VehicleTypeResponseDto> GetVehicleTypesAsync(int makeId, int page, int pageSize, CancellationToken cancellationToken = default)
         {
