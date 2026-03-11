@@ -1,4 +1,4 @@
 export interface VehicleType {
-    VehicleType_Id: number;
-    VehicleType_Name: string;
+    vehicleType_ID: number;
+    vehicleType_Name: string;
 }
