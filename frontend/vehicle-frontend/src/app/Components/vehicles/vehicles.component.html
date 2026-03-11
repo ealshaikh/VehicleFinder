@@ -1,1 +1,15 @@
-<p>vehicle works!</p>
+<div class="vehicles-container">
+
+  <p-dropdown
+    [options]="vehicleTypes"
+    [(ngModel)]="selectedType"
+    optionLabel="vehicleType_Name"
+    placeholder="Select Vehicle Type"
+    *ngIf="!notFound">
+  </p-dropdown>
+
+  <p *ngIf="notFound">
+    Not Found
+  </p>
+
+</div>

@@ -1,1 +1,4 @@
-<app-makes></app-makes>
+<div class="home-container">
+  <app-makes (makeSelected)="onMakeSelected($event)"></app-makes>
+  <app-vehicles [selectedMake]="selectedMake"></app-vehicles>
+</div>

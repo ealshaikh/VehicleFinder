@@ -1,5 +1,5 @@
 <div class="makes-container">
-  <label for="make" class="form-label">Select Car Make</label>
+  <label for="make">Select Car Make</label>
   <p-autoComplete
     id="make"
     [(ngModel)]="selectedMake"
@@ -9,7 +9,6 @@
     field="makeName"
     placeholder="Type to search car makes..."
     [minLength]="2"
-    [size]="50"
     [showEmptyMessage]="true"
     emptyMessage="No results found">
   </p-autoComplete>

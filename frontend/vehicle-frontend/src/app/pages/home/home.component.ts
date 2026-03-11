@@ -1,8 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { VehicleService } from 'src/app/services/vehicle.service';
+import { Component } from '@angular/core';
 import { Make } from 'src/app/interfaces/make';
-import { VehicleType } from 'src/app/interfaces/vehicle';
-import { Model } from 'src/app/interfaces/model';
 
 @Component({
   selector: 'app-home',
@@ -10,4 +7,12 @@ import { Model } from 'src/app/interfaces/model';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+
+  selectedMake: Make | null = null;
+
+  // when the user selects a new make, update the selectedMake property
+  onMakeSelected(make: Make | null) {
+    this.selectedMake = make;
+    console.log('Selected make in HomeComponent:', make);
+  }
 }
