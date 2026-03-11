@@ -16,7 +16,7 @@ export class VehicleService {
 
   constructor(private http: HttpClient) {}
 
-  getMakes(search: string = '', page = 1, pageSize = 50): Observable<Make[]> {
+  getMakes(search: string = '', page = 1, pageSize = 100): Observable<Make[]> {
     const params = search
       ? `?search=${encodeURIComponent(search)}&page=${page}&pageSize=${pageSize}`
       : `?page=${page}&pageSize=${pageSize}`;
@@ -34,11 +34,12 @@ export class VehicleService {
     page = 1,
     pageSize = 100,
   ): Observable<VehicleType[]> {
-    return this.http.get<VehicleType[]>(
-      `${this.baseUrl}/types?makeId=${makeId}&page=${page}&pageSize=${pageSize}`,
-    );
+    return this.http
+      .get<any>(
+        `${this.baseUrl}/types?makeId=${makeId}&page=${page}&pageSize=${pageSize}`,
+      )
+      .pipe(map((res) => res.vehicleTypes));
   }
-
   getModels(
     makeId: number,
     modelYear: number,
