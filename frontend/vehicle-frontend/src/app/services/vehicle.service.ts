@@ -40,14 +40,14 @@ export class VehicleService {
       )
       .pipe(map((res) => res.vehicleTypes));
   }
-  getModels(
-    makeId: number,
-    modelYear: number,
-    page = 1,
-    pageSize = 100,
-  ): Observable<Model[]> {
-    return this.http.get<Model[]>(
-      `${this.baseUrl}/models?makeId=${makeId}&modelYear=${modelYear}&page=${page}&pageSize=${pageSize}`,
-    );
+
+  getModels(makeId: number, modelYear: number): Observable<Model[]> {
+    return this.http
+      .get<{
+        count: number;
+        message: string;
+        models: Model[];
+      }>(`${this.baseUrl}/models?makeId=${makeId}&modelYear=${modelYear}`)
+      .pipe(map((res) => res.models || []));
   }
 }

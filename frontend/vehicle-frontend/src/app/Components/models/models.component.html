@@ -1,1 +1,36 @@
-<p>models works!</p>
+<div class="p-fluid card flex flex-wrap gap-4">
+  <div class="field">
+    <label for="year">Model Year</label>
+    <input
+      id="year"
+      type="number"
+      pInputText
+      [(ngModel)]="year"
+      min="1900"
+      [max]="currentYear"
+      placeholder="Enter year"
+    />
+  </div>
+
+  <div class="field">
+    <button
+      pButton
+      type="button"
+      label="Find"
+      (click)="onFind()"
+      class="p-button-primary"
+    ></button>
+  </div>
+</div>
+
+<div *ngIf="models && models.length > 0" class="results">
+  <ul>
+    <li *ngFor="let model of models">
+      {{ model.make_Name }} - {{ model.model_Name }}
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="models && models.length === 0">
+  No models found
+</div>
