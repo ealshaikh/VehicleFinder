@@ -1,1 +1,16 @@
-<p>makes works!</p>
+<div class="makes-container">
+  <label for="make" class="form-label">Select Car Make</label>
+  <p-autoComplete
+    id="make"
+    [(ngModel)]="selectedMake"
+    [suggestions]="makes"
+    (completeMethod)="searchMakes($event)"
+    (onSelect)="onMakeSelect()"
+    field="makeName"
+    placeholder="Type to search car makes..."
+    [minLength]="2"
+    [size]="50"
+    [showEmptyMessage]="true"
+    emptyMessage="No results found">
+  </p-autoComplete>
+</div>
