@@ -1,13 +1,19 @@
- <label for="make" class="me-2 fw-5">Select Car Make</label>
- <p-autoComplete
-  id="make"
-  [(ngModel)]="selectedMake"
-  [suggestions]="makes"
-  (completeMethod)="searchMakes($event)"
-  (onSelect)="onMakeSelect()"
-  field="makeName"
-  placeholder="Type to search car makes..."
-  [minLength]="2"
-  [showEmptyMessage]="true"
-  emptyMessage="No results found">
-</p-autoComplete>
+<label for="make" class="me-2 fw-5">Select Car Make</label>
+<mat-form-field appearance="outline" class="full-width">
+  <input
+    type="text"
+    matInput
+    placeholder="Type to search car makes..."
+    [formControl]="makeCtrl"
+    [matAutocomplete]="auto"
+  />
+
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onMakeSelect($event.option.value)">
+    <mat-option *ngFor="let make of makes" [value]="make.makeName">
+      {{ make.makeName }}
+    </mat-option>
+    <mat-option *ngIf="makes.length === 0" [disabled]="true">
+      No results found
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

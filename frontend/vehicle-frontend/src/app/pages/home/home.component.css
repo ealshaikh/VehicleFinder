@@ -1,0 +1,78 @@
+.header-row {
+  background: linear-gradient(90deg, #1976d2, #42a5f5);
+  color: #f8f8f8;
+  padding: 16px 0;
+  text-align: center;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.header-row h1 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.header-row p {
+  font-size: 1rem;
+  color: #f0f0f0;
+  margin: 0;
+}
+
+.header-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #1976d2;
+}
+
+.header-subtitle {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.full-width {
+  width: 300px;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+button.mat-raised-button {
+  min-width: 120px;
+  height: 42px;
+  font-weight: 500;
+}
+
+.table-header {
+  background-color: #90caf9;
+  color: #0d47a1;
+  font-weight: 600;
+  height: 40px;
+}
+
+.table-row:hover {
+  background-color: #f0f0f0;
+}
+
+.table-modern {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mat-elevation-z4 {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+@media (max-width: 767px) {
+  .full-width {
+    width: 100%;
+  }
+}
+.table-total {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  border-top: 2px solid #1976d2;
+}

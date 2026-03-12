@@ -5,12 +5,13 @@ import { Model } from 'src/app/interfaces/model';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
-
- selectedMake: Make | null = null;
-  models: Model[] = []; // ← هنا نخزن الموديلات
+  displayedColumns: string[] = ['make', 'model'];
+  footerColumns: string[] = ['make', 'model'];
+  selectedMake: Make | null = null;
+  models: Model[] = [];
 
   onMakeSelected(make: Make | null) {
     this.selectedMake = make;
@@ -19,5 +20,9 @@ export class HomeComponent {
 
   onModelsFetched(models: Model[]) {
     this.models = models;
+  }
+
+  get totalRecords(): number {
+    return this.models ? this.models.length : 0;
   }
 }

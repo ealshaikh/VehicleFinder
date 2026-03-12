@@ -1,32 +1,40 @@
-::ng-deep p-autocomplete .p-inputtext {
-  width: 300px;
-  box-sizing: border-box;
-  border-radius: 10px;
-  padding: 6px;
+.mat-form-field {
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  border-color: #ccc;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
+  border-color: #1976d2;
+}
+
+.mat-input-element {
+  padding: 4px 8px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.mat-autocomplete-panel {
   background-color: white;
   border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-::ng-deep .p-autocomplete-panel {
-  min-width: 270px;
-}
-
-::ng-deep .p-autocomplete-panel {
-  background-color: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-::ng-deep .p-autocomplete-item {
-  padding: 10px;
+.mat-autocomplete-panel .mat-option {
+  padding: 6px 10px;
   border-bottom: 1px solid #eee;
   cursor: pointer;
 }
 
-::ng-deep .p-autocomplete-item:last-child {
+.mat-autocomplete-panel .mat-option:last-child {
   border-bottom: none;
 }
 
-::ng-deep .p-autocomplete-item:hover {
+.mat-autocomplete-panel .mat-option:hover {
   background-color: #f0f0f0;
 }

@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../environments/environment';
-import { ApiResponse } from '../interfaces/ApiResponse';
 import { Make } from '../interfaces/make';
 import { VehicleType } from '../interfaces/vehicle';
 import { Model } from '../interfaces/model';

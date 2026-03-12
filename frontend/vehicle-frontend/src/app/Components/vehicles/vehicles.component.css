@@ -1,4 +1,4 @@
-select {
+/* select {
   width: 300px; 
   padding: 6px;
   border-radius: 10px;
@@ -7,4 +7,4 @@ select {
 
 select:disabled {
   cursor: not-allowed;      
-}
+} */

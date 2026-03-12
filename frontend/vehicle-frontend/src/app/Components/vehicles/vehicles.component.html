@@ -1,12 +1,14 @@
 <label for="vehicleType" class="me-2 fw-5">Select Vehicle Type</label>
-<select
-  id="vehicleType"
-  [(ngModel)]="selectedType"
-  [disabled]="!vehicleTypes || vehicleTypes.length === 0"
->
-  <option *ngFor="let type of vehicleTypes" [value]="type.vehicleType_Name">
-    {{ type.vehicleType_Name }}
-  </option>
-</select>
+<mat-form-field appearance="outline" class="full-width">
+  <mat-select
+    id="vehicleType"
+    [(value)]="selectedType"
+    [disabled]="!vehicleTypes || vehicleTypes.length === 0"
+  >
+    <mat-option *ngFor="let type of vehicleTypes" [value]="type">
+      {{ type.vehicleType_Name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 
 <p *ngIf="notFound">Not Found</p>

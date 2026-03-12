@@ -1,18 +1,22 @@
 <label for="year" class="me-2 fw-5">Model Year</label>
-<input
-  id="year"
-  type="number"
-  pInputText
-  [(ngModel)]="year"
-  min="1900"
-  [max]="currentYear"
-  placeholder="Enter year"
-/>
+<mat-form-field appearance="outline" class="width-70">
+  <input
+    matInput
+    type="number"
+    id="year"
+    [min]="1900"
+    [max]="currentYear"
+    placeholder="Enter year"
+    [(ngModel)]="year"
+  />
+</mat-form-field>
+
 <button
+  mat-raised-button
+  color="primary"
   type="button"
-  label="Find"
   (click)="onFind()"
-  class="btn btn-secondary ms-2"
+  class="ms-2"
 >
   Find Vehicle
 </button>

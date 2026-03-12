@@ -24,15 +24,20 @@ export class VehiclesComponent implements OnChanges {
     }
   }
 
- loadVehicleTypes(makeId: number) {
+loadVehicleTypes(makeId: number) {
   this.vehicleService.getVehicleTypes(makeId).subscribe({
     next: (types) => {
       this.vehicleTypes = types || [];
       this.notFound = this.vehicleTypes.length === 0;
+
+      if (!this.notFound) {
+        this.selectedType = this.vehicleTypes[0];
+      }
     },
     error: () => {
       this.vehicleTypes = [];
       this.notFound = true;
+      this.selectedType = null;
     }
   });
 }

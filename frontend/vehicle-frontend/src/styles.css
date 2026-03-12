@@ -1,7 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
 body {
-  background-color: #fff7e0;
+  background-color: #f5f5f5;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
 }
-.fw-5 {
+
+.full-width {
+  width: 300px;
+}
+
+label {
   font-weight: 500;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+  display: inline-block;
+  color: #333;
+}
+
+.width-70 {
+  width: 200px;
 }
