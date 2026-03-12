@@ -1,5 +1,50 @@
-<div class="home-container">
-  <app-makes (makeSelected)="onMakeSelected($event)"></app-makes>
-  <app-vehicles [selectedMake]="selectedMake"></app-vehicles>
-  <app-models [selectedMake]="selectedMake"></app-models>
+<div class="container-fluid">
+  <div class="row pt-3 mb-2 bg-warning text-dark">
+    <div class="col-12 text-center">
+      <h1>Welcome to Car Finder</h1>
+      <p>Find car models by make and year.</p>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-4">
+      <app-makes (makeSelected)="onMakeSelected($event)"></app-makes>
+    </div>
+    <div class="col-4">
+      <app-vehicles [selectedMake]="selectedMake"></app-vehicles>
+    </div>
+    <div class="col-4 d-flex">
+      <app-models
+        [selectedMake]="selectedMake"
+        (modelsFetched)="onModelsFetched($event)"
+      >
+      </app-models>
+    </div>
+  </div>
+
+  <!-- Results Table -->
+<section class="results-section mt-5" *ngIf="models">
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Make</th>
+        <th>Model</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="models.length > 0; else noModels">
+        <tr *ngFor="let model of models">
+          <td>{{ model.make_Name }}</td>
+          <td>{{ model.model_Name }}</td>
+        </tr>
+      </ng-container>
+
+      <ng-template #noModels>
+        <tr>
+          <td colspan="2" class="text-center">No models found</td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </table>
+</section>
 </div>

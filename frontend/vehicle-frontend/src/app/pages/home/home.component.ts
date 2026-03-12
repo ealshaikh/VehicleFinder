@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Make } from 'src/app/interfaces/make';
+import { Model } from 'src/app/interfaces/model';
 
 @Component({
   selector: 'app-home',
@@ -8,11 +9,15 @@ import { Make } from 'src/app/interfaces/make';
 })
 export class HomeComponent {
 
-  selectedMake: Make | null = null;
+ selectedMake: Make | null = null;
+  models: Model[] = []; // ← هنا نخزن الموديلات
 
-  // when the user selects a new make, update the selectedMake property
   onMakeSelected(make: Make | null) {
     this.selectedMake = make;
-    console.log('Selected make in HomeComponent:', make);
+    this.models = []; // Reset previous results
+  }
+
+  onModelsFetched(models: Model[]) {
+    this.models = models;
   }
 }

@@ -1,15 +1,12 @@
-<div class="vehicles-container">
+<label for="vehicleType" class="me-2 fw-5">Select Vehicle Type</label>
+<select
+  id="vehicleType"
+  [(ngModel)]="selectedType"
+  [disabled]="!vehicleTypes || vehicleTypes.length === 0"
+>
+  <option *ngFor="let type of vehicleTypes" [value]="type.vehicleType_Name">
+    {{ type.vehicleType_Name }}
+  </option>
+</select>
 
-  <p-dropdown
-    [options]="vehicleTypes"
-    [(ngModel)]="selectedType"
-    optionLabel="vehicleType_Name"
-    placeholder="Select Vehicle Type"
-    *ngIf="!notFound">
-  </p-dropdown>
-
-  <p *ngIf="notFound">
-    Not Found
-  </p>
-
-</div>
+<p *ngIf="notFound">Not Found</p>

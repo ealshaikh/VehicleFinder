@@ -1,0 +1,10 @@
+select {
+  width: 300px; 
+  padding: 6px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+select:disabled {
+  cursor: not-allowed;      
+}

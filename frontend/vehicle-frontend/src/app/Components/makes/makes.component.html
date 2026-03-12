@@ -1,15 +1,13 @@
-<div class="makes-container">
-  <label for="make">Select Car Make</label>
-  <p-autoComplete
-    id="make"
-    [(ngModel)]="selectedMake"
-    [suggestions]="makes"
-    (completeMethod)="searchMakes($event)"
-    (onSelect)="onMakeSelect()"
-    field="makeName"
-    placeholder="Type to search car makes..."
-    [minLength]="2"
-    [showEmptyMessage]="true"
-    emptyMessage="No results found">
-  </p-autoComplete>
-</div>
+ <label for="make" class="me-2 fw-5">Select Car Make</label>
+ <p-autoComplete
+  id="make"
+  [(ngModel)]="selectedMake"
+  [suggestions]="makes"
+  (completeMethod)="searchMakes($event)"
+  (onSelect)="onMakeSelect()"
+  field="makeName"
+  placeholder="Type to search car makes..."
+  [minLength]="2"
+  [showEmptyMessage]="true"
+  emptyMessage="No results found">
+</p-autoComplete>
