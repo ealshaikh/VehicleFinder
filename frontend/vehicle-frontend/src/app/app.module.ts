@@ -19,6 +19,8 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +42,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatOptionModule,
     MatButtonModule,
     MatTableModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

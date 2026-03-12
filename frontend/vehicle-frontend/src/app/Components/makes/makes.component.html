@@ -7,8 +7,16 @@
     [formControl]="makeCtrl"
     [matAutocomplete]="auto"
   />
-
-  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onMakeSelect($event.option.value)">
+  <mat-progress-spinner
+    *ngIf="loadingMakes"
+    matSuffix
+    mode="indeterminate"
+    diameter="20"
+  ></mat-progress-spinner>
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)="onMakeSelect($event.option.value)"
+  >
     <mat-option *ngFor="let make of makes" [value]="make.makeName">
       {{ make.makeName }}
     </mat-option>

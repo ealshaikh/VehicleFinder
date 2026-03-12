@@ -11,6 +11,14 @@
   />
 </mat-form-field>
 
+<div *ngIf="loadingModels" class="overlay-spinner">
+  <mat-progress-spinner
+    mode="indeterminate"
+    diameter="50"
+    color="primary"
+  ></mat-progress-spinner>
+</div>
+
 <button
   mat-raised-button
   color="primary"

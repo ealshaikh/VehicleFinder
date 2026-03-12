@@ -28,6 +28,7 @@ export class MakesComponent implements OnInit, OnDestroy {
   selectedMake: Make | null = null;
   @Output() makeSelected = new EventEmitter<Make | null>();
   private destroy$ = new Subject<void>();
+  loadingMakes = false;
 
   constructor(private vehicleService: VehicleService) {}
 
@@ -36,23 +37,33 @@ export class MakesComponent implements OnInit, OnDestroy {
       .pipe(
         debounceTime(300),
         distinctUntilChanged(),
-        switchMap((query) =>
-          !query || query.length < 2
-            ? of([])
-            : this.vehicleService.getMakes(query, 1, 100),
-        ),
+        switchMap((query) => {
+          if (!query || query.length < 2) {
+            this.loadingMakes = false;
+            return of([]);
+          }
+          this.loadingMakes = true;
+          return this.vehicleService.getMakes(query, 1, 100);
+        }),
         takeUntil(this.destroy$),
       )
       .subscribe({
-        next: (makes) => (this.makes = [...makes]),
-        error: () => (this.makes = []),
+        next: (makes) => {
+          this.makes = [...makes];
+          this.loadingMakes = false;
+        },
+        error: () => {
+          this.makes = [];
+          this.loadingMakes = false;
+        },
       });
   }
 
- onMakeSelect(selectedName: string) {
-  this.selectedMake = this.makes.find(m => m.makeName === selectedName) || null;
-  this.makeSelected.emit(this.selectedMake);
-}
+  onMakeSelect(selectedName: string) {
+    this.selectedMake =
+      this.makes.find((m) => m.makeName === selectedName) || null;
+    this.makeSelected.emit(this.selectedMake);
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next();
