@@ -13,25 +13,37 @@ namespace VehicleDataAPI.Services
         }
         public async Task<MakesResponseDTO> GetMakesAsync(string? search, int page, int pageSize, CancellationToken cancellationToken = default)
         {
-            var allMakes = await _vehicleApiClient.GetMakes(cancellationToken);
+            try
+            {
+                var allMakes = await _vehicleApiClient.GetMakes(cancellationToken);
 
-            var filtered = string.IsNullOrEmpty(search)
-                ? allMakes.Makes
-                : allMakes.Makes
-                    .Where(m => m.MakeName.Contains(search, StringComparison.OrdinalIgnoreCase))
+                var filtered = string.IsNullOrEmpty(search)
+                    ? allMakes.Makes
+                    : allMakes.Makes
+                        .Where(m => m.MakeName.Contains(search, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+
+                var paged = filtered
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
                     .ToList();
 
-            var paged = filtered
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
-
-            return new MakesResponseDTO
+                return new MakesResponseDTO
+                {
+                    Count = filtered.Count,
+                    Message = allMakes.Message,
+                    Makes = paged
+                };
+            }
+            catch (HttpRequestException ex)
             {
-                Count = filtered.Count,
-                Message = allMakes.Message,
-                Makes = paged
-            };
+                throw new InvalidOperationException("Error calling external vehicle API", ex);
+            }
+
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("An unexpected error occurred while processing the request", ex);
+            }
         }
         public async Task<VehicleTypeResponseDto> GetVehicleTypesAsync(int makeId, int page, int pageSize, CancellationToken cancellationToken = default)
         {
