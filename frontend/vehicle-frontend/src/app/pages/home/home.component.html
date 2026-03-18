@@ -28,7 +28,7 @@
   <!-- Results Table -->
   <div class="row">
     <div class="col-12">
-      <section class="results-section" *ngIf="models">
+      <section class="results-section" *ngIf="models.length > 0">
         <table
           mat-table
           [dataSource]="models"

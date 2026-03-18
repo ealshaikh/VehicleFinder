@@ -26,9 +26,10 @@ export class MakesComponent implements OnInit, OnDestroy {
   makeCtrl = new FormControl('');
   makes: Make[] = [];
   selectedMake: Make | null = null;
+  loadingMakes = false;
+
   @Output() makeSelected = new EventEmitter<Make | null>();
   private destroy$ = new Subject<void>();
-  loadingMakes = false;
 
   constructor(private vehicleService: VehicleService) {}
 
