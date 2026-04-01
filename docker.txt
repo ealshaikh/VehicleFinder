@@ -1,0 +1,9 @@
+docker build -t vehicle-backend .
+docker run -d -p 7100:8080 vehicle-backend
+
+docker build -t vehicle-frontend .
+docker run -d -p 4200:80 vehicle-frontend
+
+
+cd C:\Users\Esraa Alshaikh\Desktop\VehicleDataAPI
+docker-compose up --build -d
